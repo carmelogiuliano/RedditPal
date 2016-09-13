@@ -13,8 +13,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.carmelogiuliano.redditpal.http.RedditService;
+import com.carmelogiuliano.redditpal.model.Listing;
+import com.carmelogiuliano.redditpal.model.Post;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Callback<Listing> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +51,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+        RedditService client = new RedditService();
+        Call<Listing> call = client.mRedditAPI.getPosts("pics");
+        call.enqueue(this);
     }
 
     @Override
@@ -97,5 +114,16 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public void onResponse(Call<Listing> call, Response<Listing> response) {
+
+    }
+
+    @Override
+    public void onFailure(Call<Listing> call, Throwable t) {
+
     }
 }
