@@ -28,7 +28,7 @@ public class PostData {
     @SerializedName("created_utc")
     private long createdUtc;
     @SerializedName("num_comments")
-    private int numComments;
+    private String numComments;
     private boolean visited;
 
     public String getDomain() {
@@ -91,7 +91,7 @@ public class PostData {
         return createdUtc;
     }
 
-    public int getNumComments() {
+    public String getNumComments() {
         return numComments;
     }
 

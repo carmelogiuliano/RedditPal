@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.carmelogiuliano.redditpal.adapter.PostAdapter;
@@ -33,6 +34,12 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private PostAdapter mPostAdapter;
     private ArrayList<Post> mPostList;
+    private LinearLayoutManager mLayoutManager;
+    private boolean mIsLoading;
+    private RedditService mClient;
+    private String mAfter;
+    private String mSubreddit = "pics";
+    private int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,14 +70,39 @@ public class MainActivity extends AppCompatActivity
         //endregion
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_posts);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mPostList = new ArrayList<>();
         mPostAdapter = new PostAdapter(this, mPostList);
         mRecyclerView.setAdapter(mPostAdapter);
 
-        RedditService client = new RedditService();
-        Call<Listing> call = client.mRedditAPI.getPosts("pics");
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int visibleItemCount = mLayoutManager.getChildCount();
+                int totalItemCount = mLayoutManager.getItemCount();
+                int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+                if (!mIsLoading && (firstVisibleItemPosition + visibleItemCount >= totalItemCount)) {
+                    mIsLoading = true;
+                    Call<Listing> call = mClient.mRedditAPI.getPosts(mSubreddit, mAfter);
+                    call.enqueue(MainActivity.this);
+                    Toast.makeText(MainActivity.this, (i++)+"", Toast.LENGTH_SHORT).show();
+                    mIsLoading = false;
+                }
+            }
+        });
+
+        mClient = new RedditService();
+        mIsLoading = true;
+        Call<Listing> call = mClient.mRedditAPI.getPosts(mSubreddit, null);
         call.enqueue(this);
+        mIsLoading = false;
     }
 
     //region drawer
@@ -138,6 +170,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResponse(Call<Listing> call, Response<Listing> response) {
         mPostList.addAll(response.body().getPosts());
+        mAfter = response.body().getAfter();
         mPostAdapter.notifyDataSetChanged();
     }
 

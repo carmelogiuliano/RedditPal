@@ -34,6 +34,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Post post = mPostList.get(position);
         holder.title.setText(post.getData().getTitle());
+        holder.numComments.setText(post.getData().getNumComments());
     }
 
     @Override
@@ -44,10 +45,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
+        private TextView numComments;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.post_title);
+            numComments = (TextView) itemView.findViewById(R.id.post_num_comments);
         }
 
     }
