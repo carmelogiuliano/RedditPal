@@ -1,4 +1,4 @@
-package com.carmelogiuliano.redditpal;
+package com.carmelogiuliano.redditpal.Activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,16 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.carmelogiuliano.redditpal.R;
 import com.carmelogiuliano.redditpal.adapter.PostAdapter;
 import com.carmelogiuliano.redditpal.http.RedditService;
 import com.carmelogiuliano.redditpal.model.Listing;
 import com.carmelogiuliano.redditpal.model.Post;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

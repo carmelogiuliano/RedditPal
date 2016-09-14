@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.carmelogiuliano.redditpal.R;
@@ -15,9 +16,11 @@ import java.util.ArrayList;
 /**
  * Created by Carmelo on 14/09/2016.
  */
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Post> mPostList;
     private LayoutInflater mInflater;
+    private static final int VIEW_TYPE_POST = 0;
+    private static final int VIEW_TYPE_LOADING = 1;
 
     public PostAdapter(Context context, ArrayList<Post> posts) {
         mPostList = posts;
@@ -25,16 +28,39 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.post_item, parent, false);
-        return new ViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == VIEW_TYPE_POST) {
+            View itemView = mInflater.inflate(R.layout.post_item, parent, false);
+            return new PostViewHolder(itemView);
+        } else if(viewType == VIEW_TYPE_LOADING) {
+            View itemView = mInflater.inflate(R.layout.loading_item, parent, false);
+            return new LoadingViewHolder(itemView);
+        }
+
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Post post = mPostList.get(position);
-        holder.title.setText(post.getData().getTitle());
-        holder.numComments.setText(post.getData().getNumComments());
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if(holder instanceof PostViewHolder) {
+            PostViewHolder postHolder = (PostViewHolder) holder;
+            Post post = mPostList.get(position);
+            postHolder.title.setText(post.getData().getTitle());
+            postHolder.numComments.setText(post.getData().getNumComments());
+        } else if(holder instanceof LoadingViewHolder) {
+            LoadingViewHolder loadingHolder = (LoadingViewHolder) holder;
+            loadingHolder.progressBar.setIndeterminate(true);
+        }
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == mPostList.size() - 1) {
+            return VIEW_TYPE_LOADING;
+        } else {
+            return VIEW_TYPE_POST;
+        }
     }
 
     @Override
@@ -43,15 +69,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class PostViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView numComments;
 
-        public ViewHolder(View itemView) {
+        public PostViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.post_title);
             numComments = (TextView) itemView.findViewById(R.id.post_num_comments);
         }
 
+    }
+
+    public class LoadingViewHolder extends RecyclerView.ViewHolder {
+        private ProgressBar progressBar;
+
+        public LoadingViewHolder(View itemView) {
+            super(itemView);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.load_item_progressBar);
+        }
     }
 }
