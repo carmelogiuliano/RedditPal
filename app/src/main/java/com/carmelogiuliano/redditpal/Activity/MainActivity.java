@@ -84,15 +84,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                int visibleItemCount = mLayoutManager.getChildCount();
+
                 int totalItemCount = mLayoutManager.getItemCount();
-                int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
-                if (!mIsLoading && (firstVisibleItemPosition + visibleItemCount >= totalItemCount)) {
+                int lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+                if (!mIsLoading && (totalItemCount <= lastVisibleItem + 3 /*visibleThreshold*/)) {
                     mIsLoading = true;
                     Call<Listing> call = mClient.mRedditAPI.getPosts(mSubreddit, mAfter);
                     call.enqueue(MainActivity.this);
                     Toast.makeText(MainActivity.this, (i++)+"", Toast.LENGTH_SHORT).show();
-                    mIsLoading = false;
                 }
             }
         });
@@ -101,7 +100,6 @@ public class MainActivity extends AppCompatActivity
         mIsLoading = true;
         Call<Listing> call = mClient.mRedditAPI.getPosts(mSubreddit, null);
         call.enqueue(this);
-        mIsLoading = false;
     }
 
     //region drawer
@@ -171,6 +169,7 @@ public class MainActivity extends AppCompatActivity
         mPostList.addAll(response.body().getPosts());
         mAfter = response.body().getAfter();
         mPostAdapter.notifyDataSetChanged();
+        mIsLoading = false;
     }
 
     @Override
