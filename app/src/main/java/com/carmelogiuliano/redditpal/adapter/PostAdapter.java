@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.carmelogiuliano.redditpal.R;
 import com.carmelogiuliano.redditpal.model.Post;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -19,10 +21,12 @@ import java.util.ArrayList;
 public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Post> mPostList;
     private LayoutInflater mInflater;
+    private Context mContext;
     private static final int VIEW_TYPE_POST = 0;
     private static final int VIEW_TYPE_LOADING = 1;
 
     public PostAdapter(Context context, ArrayList<Post> posts) {
+        mContext = context;
         mPostList = posts;
         mInflater = LayoutInflater.from(context);
     }
@@ -45,8 +49,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if(holder instanceof PostViewHolder) {
             PostViewHolder postHolder = (PostViewHolder) holder;
             Post post = mPostList.get(position);
-            postHolder.title.setText(post.getData().getTitle());
-            postHolder.numComments.setText(post.getData().getNumComments());
+            postHolder.title.setText(post.getTitle());
+            postHolder.numComments.setText(post.getNumComments());
+
+
         } else if(holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingHolder = (LoadingViewHolder) holder;
             loadingHolder.progressBar.setIndeterminate(true);
@@ -72,13 +78,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class PostViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView numComments;
+        private ImageView image;
 
         public PostViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.post_title);
             numComments = (TextView) itemView.findViewById(R.id.post_num_comments);
+            image = (ImageView) itemView.findViewById(R.id.post_image);
         }
-
     }
 
     public class LoadingViewHolder extends RecyclerView.ViewHolder {

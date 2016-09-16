@@ -9,16 +9,10 @@ import java.util.List;
  */
 public class Listing {
     private String after;
-    private String before;
-    @SerializedName("children")
     private List<Post> posts;
 
     public String getAfter() {
         return after;
-    }
-
-    public String getBefore() {
-        return before;
     }
 
     public List<Post> getPosts() {

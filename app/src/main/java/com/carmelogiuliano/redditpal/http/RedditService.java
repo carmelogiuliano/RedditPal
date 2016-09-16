@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -13,8 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Carmelo on 13/09/2016.
  */
 public class RedditService {
-    public Retrofit mRetrofit;
-    public RedditAPI mRedditAPI;
+    private Retrofit mRetrofit;
+    private RedditAPI mRedditAPI;
 
     public RedditService() {
         Gson gson = new GsonBuilder()
@@ -27,5 +28,9 @@ public class RedditService {
             .build();
 
         mRedditAPI = mRetrofit.create(RedditAPI.class);
+    }
+
+    public Call<Listing> getPosts(String subreddit, String after) {
+        return mRedditAPI.getPosts(subreddit, after);
     }
 }

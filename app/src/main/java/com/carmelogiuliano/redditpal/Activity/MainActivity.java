@@ -1,4 +1,4 @@
-package com.carmelogiuliano.redditpal.Activity;
+package com.carmelogiuliano.redditpal.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity
     private String mAfter;
     private String mSubreddit = "pics";
     private int i = 0;
+
+    private static final int VISIBLE_THRESHOLD = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,18 +89,18 @@ public class MainActivity extends AppCompatActivity
 
                 int totalItemCount = mLayoutManager.getItemCount();
                 int lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
-                if (!mIsLoading && (totalItemCount <= lastVisibleItem + 3 /*visibleThreshold*/)) {
+                if (!mIsLoading && (totalItemCount <= lastVisibleItem + VISIBLE_THRESHOLD)) {
                     mIsLoading = true;
-                    Call<Listing> call = mClient.mRedditAPI.getPosts(mSubreddit, mAfter);
+                    Call<Listing> call = mClient.getPosts(mSubreddit, mAfter);
                     call.enqueue(MainActivity.this);
-                    Toast.makeText(MainActivity.this, (i++)+"", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, (++i)+"", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
         mClient = new RedditService();
         mIsLoading = true;
-        Call<Listing> call = mClient.mRedditAPI.getPosts(mSubreddit, null);
+        Call<Listing> call = mClient.getPosts(mSubreddit, null);
         call.enqueue(this);
     }
 
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFailure(Call<Listing> call, Throwable t) {
-        Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Network error", Toast.LENGTH_LONG).show();
     }
     //endregion
 }
