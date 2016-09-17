@@ -19,7 +19,12 @@ public class RedditDeserializer implements JsonDeserializer<Listing> {
     @Override
     public Listing deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonArray children = json.getAsJsonObject().getAsJsonObject("data").getAsJsonArray("children");
-        JsonPrimitive after = json.getAsJsonObject().getAsJsonObject("data").getAsJsonPrimitive("after");
+        JsonPrimitive after;
+        try {
+            after = json.getAsJsonObject().getAsJsonObject("data").getAsJsonPrimitive("after");
+        } catch (ClassCastException e) {
+            after = null;
+        }
 
         JsonArray posts = new JsonArray();
         for (int i = 0; i < children.size(); i++) {
