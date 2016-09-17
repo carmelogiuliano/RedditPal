@@ -179,7 +179,6 @@ public class MainActivity extends AppCompatActivity
         mPostList.addAll(response.body().getPosts());
         mPostAdapter.notifyDataSetChanged();
         mPostAdapter.setLoaded();
-
     }
 
     @Override

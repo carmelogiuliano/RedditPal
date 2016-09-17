@@ -98,10 +98,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         String previewUrl = post.getImagePreviews().get(index).getUrl();
                         Glide.with(mContext).load(previewUrl).into(postHolder.image);
                     }
-
-                    //mAttacher = new PhotoViewAttacher(postHolder.image);
-                    //mAttacher.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    //mAttacher.setZoomable(false);
                 }
             //}
         } else if(holder instanceof LoadingViewHolder) {
