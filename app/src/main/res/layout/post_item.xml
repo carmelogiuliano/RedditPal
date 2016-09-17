@@ -15,7 +15,8 @@
             android:id="@+id/post_image"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:background="#AAAAAA" />
+            android:background="#AAAAAA"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/post_title"

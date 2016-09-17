@@ -1,6 +1,10 @@
 package com.carmelogiuliano.redditpal.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +16,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.carmelogiuliano.redditpal.R;
+import com.carmelogiuliano.redditpal.activity.ImageActivity;
+import com.carmelogiuliano.redditpal.activity.MainActivity;
 import com.carmelogiuliano.redditpal.model.Post;
 
 import java.util.ArrayList;
@@ -27,13 +33,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater mInflater;
     private Context mContext;
     private String mAfter;
+
     private OnLoadMoreListener mOnLoadMoreListener;
 
     private PhotoViewAttacher mAttacher;
 
     private static final int VIEW_TYPE_POST = 0;
     private static final int VIEW_TYPE_LOADING = 1;
-    private static final int IMAGE_PREVIEW_INDEX = 2;
+    private static final int IMAGE_PREVIEW_INDEX = 3;
     private static final int VISIBLE_THRESHOLD = 3;
 
     private boolean mLoading = true;
@@ -62,15 +69,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder holder = null;
         if(viewType == VIEW_TYPE_POST) {
             View itemView = mInflater.inflate(R.layout.post_item, parent, false);
-            return new PostViewHolder(itemView);
+            holder = new PostViewHolder(itemView);
         } else if(viewType == VIEW_TYPE_LOADING) {
             View itemView = mInflater.inflate(R.layout.loading_item, parent, false);
-            return new LoadingViewHolder(itemView);
+            holder = new LoadingViewHolder(itemView);
         }
-
-        return null;
+        return holder;
     }
 
     @Override
@@ -92,9 +99,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         Glide.with(mContext).load(previewUrl).into(postHolder.image);
                     }
 
-                    mAttacher = new PhotoViewAttacher(postHolder.image);
-                    mAttacher.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    mAttacher.setZoomable(false);
+                    //mAttacher = new PhotoViewAttacher(postHolder.image);
+                    //mAttacher.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    //mAttacher.setZoomable(false);
                 }
             //}
         } else if(holder instanceof LoadingViewHolder) {
@@ -118,8 +125,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return mPostList.size();
     }
 
-    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.mOnLoadMoreListener = mOnLoadMoreListener;
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        mOnLoadMoreListener = onLoadMoreListener;
     }
 
     public void setLoaded() {
@@ -129,6 +136,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setAfter(String after) {
         mAfter = after;
     }
+
+
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
@@ -140,6 +149,26 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             title = (TextView) itemView.findViewById(R.id.post_title);
             numComments = (TextView) itemView.findViewById(R.id.post_num_comments);
             image = (ImageView) itemView.findViewById(R.id.post_image);
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, ImageActivity.class);
+                    Post post = mPostList.get(getAdapterPosition());
+
+                    String imgUrl = "";
+                    if(post.getImagePreviews() != null) {
+                        try {
+                            imgUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
+                        } catch (IndexOutOfBoundsException e) {
+                            int index = post.getImagePreviews().size() - 1;
+                            imgUrl = post.getImagePreviews().get(index).getUrl();
+                        }
+                    }
+
+                    intent.putExtra("IMG_URL", imgUrl);
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -151,4 +180,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             progressBar = (ProgressBar) itemView.findViewById(R.id.load_item_progressBar);
         }
     }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore();
+    }
+
 }

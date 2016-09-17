@@ -1,8 +1,14 @@
 package com.carmelogiuliano.redditpal.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,15 +20,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.carmelogiuliano.redditpal.R;
-import com.carmelogiuliano.redditpal.adapter.OnLoadMoreListener;
 import com.carmelogiuliano.redditpal.adapter.PostAdapter;
 import com.carmelogiuliano.redditpal.http.RedditService;
 import com.carmelogiuliano.redditpal.model.Listing;
 import com.carmelogiuliano.redditpal.model.Post;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -36,11 +43,9 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Post> mPostList;
     private LinearLayoutManager mLayoutManager;
     private RedditService mClient;
-    private String mSubreddit = "pics";
+    private String mSubreddit = "earthporn";
     //private String mSubreddit = "moooosseey";
     private String mAfter;
-
-    private int i = 0;
 
 
 
@@ -77,7 +82,7 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setLayoutManager(mLayoutManager);
         mPostList = new ArrayList<>();
         mPostAdapter = new PostAdapter(this, mRecyclerView, mPostList);
-        mPostAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+        mPostAdapter.setOnLoadMoreListener(new PostAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 mPostList.add(null); // adapter will recognise null item and infalte progressbar
@@ -86,9 +91,9 @@ public class MainActivity extends AppCompatActivity
                 mPostAdapter.setLoaded();
                 Call<Listing> call = mClient.getPosts(mSubreddit, mAfter);
                 call.enqueue(MainActivity.this);
-                Toast.makeText(MainActivity.this, (++i)+"", Toast.LENGTH_SHORT).show();
             }
         });
+
         mRecyclerView.setAdapter(mPostAdapter);
 
 
