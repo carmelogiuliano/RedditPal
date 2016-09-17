@@ -16,6 +16,8 @@ import com.carmelogiuliano.redditpal.model.Post;
 
 import java.util.ArrayList;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 
 /**
  * Created by Carmelo on 14/09/2016.
@@ -26,6 +28,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private String mAfter;
     private OnLoadMoreListener mOnLoadMoreListener;
+
+    private PhotoViewAttacher mAttacher;
+
     private static final int VIEW_TYPE_POST = 0;
     private static final int VIEW_TYPE_LOADING = 1;
     private static final int IMAGE_PREVIEW_INDEX = 2;
@@ -86,6 +91,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         String previewUrl = post.getImagePreviews().get(index).getUrl();
                         Glide.with(mContext).load(previewUrl).into(postHolder.image);
                     }
+
+                    mAttacher = new PhotoViewAttacher(postHolder.image);
+                    mAttacher.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    mAttacher.setZoomable(false);
                 }
             //}
         } else if(holder instanceof LoadingViewHolder) {
