@@ -9,18 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.carmelogiuliano.redditpal.R;
-import com.carmelogiuliano.redditpal.model.ImagePreview;
-import com.carmelogiuliano.redditpal.model.Listing;
 import com.carmelogiuliano.redditpal.model.Post;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import retrofit2.Call;
 
 /**
  * Created by Carmelo on 14/09/2016.
@@ -85,11 +80,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if(post.getImagePreviews() != null) { // if not null, at least one ImagePreview exists
                     try {
                         String previewUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
-                        Picasso.with(mContext).load(previewUrl).into(postHolder.image);
+                        Glide.with(mContext).load(previewUrl).into(postHolder.image);
                     } catch (IndexOutOfBoundsException e) {
                         int index = post.getImagePreviews().size() - 1;
                         String previewUrl = post.getImagePreviews().get(index).getUrl();
-                        Picasso.with(mContext).load(previewUrl).into(postHolder.image);
+                        Glide.with(mContext).load(previewUrl).into(postHolder.image);
                     }
                 }
             //}
@@ -102,13 +97,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        /*if (position == mPostList.size() - 1) {
-            return VIEW_TYPE_LOADING;
-        } else {
-            return VIEW_TYPE_POST;
-        }*/
-        //return mPostList.get(position) != null ? VIEW_TYPE_POST : VIEW_TYPE_LOADING;
-
         if(mPostList.get(position) != null) {
             return VIEW_TYPE_POST;
         } else {
