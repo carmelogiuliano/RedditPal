@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.carmelogiuliano.redditpal.R;
+import com.carmelogiuliano.redditpal.adapter.OnLoadMoreListener;
 import com.carmelogiuliano.redditpal.adapter.PostAdapter;
 import com.carmelogiuliano.redditpal.http.RedditService;
 import com.carmelogiuliano.redditpal.model.Listing;
@@ -34,13 +35,14 @@ public class MainActivity extends AppCompatActivity
     private PostAdapter mPostAdapter;
     private ArrayList<Post> mPostList;
     private LinearLayoutManager mLayoutManager;
-    private boolean mIsLoading;
     private RedditService mClient;
-    private String mAfter;
     private String mSubreddit = "pics";
+    //private String mSubreddit = "moooosseey";
+    private String mAfter;
+
     private int i = 0;
 
-    private static final int VISIBLE_THRESHOLD = 3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,32 +76,24 @@ public class MainActivity extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mPostList = new ArrayList<>();
-        mPostAdapter = new PostAdapter(this, mPostList);
-        mRecyclerView.setAdapter(mPostAdapter);
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mPostAdapter = new PostAdapter(this, mRecyclerView, mPostList);
+        mPostAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
+            public void onLoadMore() {
+                mPostList.add(null); // adapter will recognise null item and infalte progressbar
+                mPostAdapter.notifyItemChanged(mPostList.size() - 1);
 
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                int totalItemCount = mLayoutManager.getItemCount();
-                int lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
-                if (!mIsLoading && (totalItemCount <= lastVisibleItem + VISIBLE_THRESHOLD)) {
-                    mIsLoading = true;
-                    Call<Listing> call = mClient.getPosts(mSubreddit, mAfter);
-                    call.enqueue(MainActivity.this);
-                    Toast.makeText(MainActivity.this, (++i)+"", Toast.LENGTH_SHORT).show();
-                }
+                mPostAdapter.setLoaded();
+                Call<Listing> call = mClient.getPosts(mSubreddit, mAfter);
+                call.enqueue(MainActivity.this);
+                Toast.makeText(MainActivity.this, (++i)+"", Toast.LENGTH_SHORT).show();
             }
         });
+        mRecyclerView.setAdapter(mPostAdapter);
+
+
 
         mClient = new RedditService();
-        mIsLoading = true;
         Call<Listing> call = mClient.getPosts(mSubreddit, null);
         call.enqueue(this);
     }
@@ -167,11 +161,20 @@ public class MainActivity extends AppCompatActivity
 
     //region Retrofit
     @Override
+
     public void onResponse(Call<Listing> call, Response<Listing> response) {
-        mPostList.addAll(response.body().getPosts());
+
+        // remove progressbar
+        if(mPostList.size() > 0) {
+            mPostList.remove(mPostList.size() - 1);
+        }
+
         mAfter = response.body().getAfter();
+        mPostAdapter.setAfter(mAfter);
+        mPostList.addAll(response.body().getPosts());
         mPostAdapter.notifyDataSetChanged();
-        mIsLoading = false;
+        mPostAdapter.setLoaded();
+
     }
 
     @Override

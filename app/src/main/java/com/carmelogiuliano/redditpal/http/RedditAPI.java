@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 public interface RedditAPI {
 
 
-    @GET("/r/{subreddit}/.json")
+    @GET("/r/{subreddit}/.json?raw_json=1")
     Call<Listing> getPosts(@Path("subreddit") String subreddit, @Query("after") String after);
 
 }
