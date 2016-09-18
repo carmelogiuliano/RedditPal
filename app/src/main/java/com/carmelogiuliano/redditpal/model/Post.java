@@ -109,4 +109,15 @@ public class Post {
     public List<ImagePreview> getImagePreviews() {
         return imagePreviews;
     }
+
+    public boolean isImage() {
+        String lUrl = url.toLowerCase();
+        return (lUrl.endsWith(".jpg") ||
+                lUrl.endsWith(".jpeg") ||
+                lUrl.endsWith(".gif") ||
+                lUrl.endsWith(".png") ||
+                lUrl.endsWith(".webp") ||
+                lUrl.contains("imgur.com") ||
+                lUrl.contains("reddituploads.com"));
+    }
 }

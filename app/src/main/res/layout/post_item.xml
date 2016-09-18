@@ -17,18 +17,25 @@
             android:layout_height="170dp"
             android:background="#AAAAAA"
             android:scaleType="centerCrop"/>
-
-        <TextView
-            android:id="@+id/post_title"
+        <LinearLayout
+            android:id="@+id/post_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TITLE" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/post_num_comments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="COMMENTS" />
+            <TextView
+                android:id="@+id/post_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TITLE" />
+
+            <TextView
+                android:id="@+id/post_num_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="COMMENTS" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

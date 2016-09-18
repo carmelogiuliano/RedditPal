@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.carmelogiuliano.redditpal.R;
+import com.carmelogiuliano.redditpal.activity.DetailActivity;
 import com.carmelogiuliano.redditpal.activity.ImageActivity;
 import com.carmelogiuliano.redditpal.activity.MainActivity;
 import com.carmelogiuliano.redditpal.model.Post;
@@ -87,9 +89,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Post post = mPostList.get(position);
             //if(!post.isNSFW()) {
                 postHolder.title.setText(post.getTitle());
-                postHolder.numComments.setText(post.getNumComments());
+                postHolder.numComments.setText(mContext.getString(R.string.num_comments, post.getNumComments()));
 
-                if(post.getImagePreviews() != null) { // if not null, at least one ImagePreview exists
+                if(post.getImagePreviews() != null) {
                     try {
                         String previewUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
                         Glide.with(mContext).load(previewUrl).into(postHolder.image);
@@ -139,12 +141,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView title;
         private TextView numComments;
         private ImageView image;
+        private LinearLayout details;
 
         public PostViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.post_title);
             numComments = (TextView) itemView.findViewById(R.id.post_num_comments);
             image = (ImageView) itemView.findViewById(R.id.post_image);
+            details = (LinearLayout) itemView.findViewById(R.id.post_details);
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -162,6 +166,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
 
                     intent.putExtra("IMG_URL", imgUrl);
+                    mContext.startActivity(intent);
+                }
+            });
+
+            details.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DetailActivity.class);
                     mContext.startActivity(intent);
                 }
             });
