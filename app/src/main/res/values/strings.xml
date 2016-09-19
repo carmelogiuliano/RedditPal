@@ -8,8 +8,7 @@
 
     <string name="num_comments">%1$s comments</string>
     <string name="title_activity_detail">DetailActivity</string>
-    <string name="section_format">Hello World from section: %1$d</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_comments">Comments</string>
+    <string name="tab_web">Link</string>
 </resources>

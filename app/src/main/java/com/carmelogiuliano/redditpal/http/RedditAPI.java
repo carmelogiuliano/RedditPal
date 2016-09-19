@@ -12,8 +12,9 @@ import retrofit2.http.Query;
  */
 public interface RedditAPI {
 
-
     @GET("/r/{subreddit}/.json?raw_json=1")
     Call<Listing> getPosts(@Path("subreddit") String subreddit, @Query("after") String after);
 
+    @GET("{permalink}.json?raw_json=1")
+    Call<Listing> getComments(@Path("permalink") String permalink);
 }

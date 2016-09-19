@@ -23,7 +23,9 @@
         <activity
             android:name=".activity.ImageActivity"
             android:theme="@style/AppTheme.Translucent" />
-        <activity android:name=".activity.DetailActivity"></activity>
+        <activity
+            android:name=".activity.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

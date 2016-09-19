@@ -87,21 +87,22 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if(holder instanceof PostViewHolder) {
             PostViewHolder postHolder = (PostViewHolder) holder;
             Post post = mPostList.get(position);
-            //if(!post.isNSFW()) {
-                postHolder.title.setText(post.getTitle());
-                postHolder.numComments.setText(mContext.getString(R.string.num_comments, post.getNumComments()));
+            postHolder.title.setText(post.getTitle());
+            postHolder.numComments.setText(mContext.getString(R.string.num_comments, post.getNumComments()));
 
-                if(post.getImagePreviews() != null) {
-                    try {
-                        String previewUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
-                        Glide.with(mContext).load(previewUrl).into(postHolder.image);
-                    } catch (IndexOutOfBoundsException e) {
-                        int index = post.getImagePreviews().size() - 1;
-                        String previewUrl = post.getImagePreviews().get(index).getUrl();
-                        Glide.with(mContext).load(previewUrl).into(postHolder.image);
-                    }
+            if(post.getImagePreviews() != null) {
+                try {
+                    String previewUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
+                    Glide.with(mContext).load(previewUrl).into(postHolder.image);
+                } catch (IndexOutOfBoundsException e) {
+                    int index = post.getImagePreviews().size() - 1;
+                    String previewUrl = post.getImagePreviews().get(index).getUrl();
+                    Glide.with(mContext).load(previewUrl).into(postHolder.image);
                 }
-            //}
+            }
+            else if(post.isImage()) {
+                Glide.with(mContext).load(post.getUrl()).into(postHolder.image);
+            }
         } else if(holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingHolder = (LoadingViewHolder) holder;
             loadingHolder.progressBar.setIndeterminate(true);
@@ -163,6 +164,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             int index = post.getImagePreviews().size() - 1;
                             imgUrl = post.getImagePreviews().get(index).getUrl();
                         }
+                    }
+                    else if(post.isImage()) {
+                        imgUrl = post.getUrl();
                     }
 
                     intent.putExtra("IMG_URL", imgUrl);
