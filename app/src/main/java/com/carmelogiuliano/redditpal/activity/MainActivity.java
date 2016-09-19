@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Post> mPostList;
     private LinearLayoutManager mLayoutManager;
     private RedditService mClient;
-    private String mSubreddit = "worldnews";
+    private String mSubreddit = "pics";
     //private String mSubreddit = "moooosseey";
     private String mAfter;
 

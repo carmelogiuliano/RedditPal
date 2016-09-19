@@ -12,6 +12,8 @@ import com.google.gson.JsonPrimitive;
 
 import java.lang.reflect.Type;
 
+import retrofit2.http.Path;
+
 /**
  * Created by Carmelo on 13/09/2016.
  */
@@ -29,6 +31,13 @@ public class RedditDeserializer implements JsonDeserializer<Listing> {
         JsonArray posts = new JsonArray();
         for (int i = 0; i < children.size(); i++) {
             JsonObject post = children.get(i).getAsJsonObject().getAsJsonObject("data");
+
+            boolean over18 = post.get("over_18").getAsBoolean();
+            if(over18) {
+                children.getAsJsonArray().remove(i);
+                continue;
+            }
+
 
             JsonObject preview = post.getAsJsonObject("preview");
             if(preview != null) {

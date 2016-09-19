@@ -90,7 +90,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             postHolder.title.setText(post.getTitle());
             postHolder.numComments.setText(mContext.getString(R.string.num_comments, post.getNumComments()));
 
-            if(post.getImagePreviews() != null) {
+            if (post.getImagePreviews() != null) {
                 try {
                     String previewUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
                     Glide.with(mContext).load(previewUrl).into(postHolder.image);
@@ -99,8 +99,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     String previewUrl = post.getImagePreviews().get(index).getUrl();
                     Glide.with(mContext).load(previewUrl).into(postHolder.image);
                 }
-            }
-            else if(post.isImage()) {
+            } else if (post.isImage()) {
                 Glide.with(mContext).load(post.getUrl()).into(postHolder.image);
             }
         } else if(holder instanceof LoadingViewHolder) {
@@ -157,18 +156,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     Post post = mPostList.get(getAdapterPosition());
 
                     String imgUrl = "";
-                    if(post.getImagePreviews() != null) {
+                    if (post.getImagePreviews() != null && !post.isNSFW()) {
                         try {
                             imgUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
                         } catch (IndexOutOfBoundsException e) {
                             int index = post.getImagePreviews().size() - 1;
                             imgUrl = post.getImagePreviews().get(index).getUrl();
                         }
-                    }
-                    else if(post.isImage()) {
+                    } else if (post.isImage()) {
                         imgUrl = post.getUrl();
                     }
-
                     intent.putExtra("IMG_URL", imgUrl);
                     mContext.startActivity(intent);
                 }
