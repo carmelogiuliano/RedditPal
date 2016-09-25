@@ -32,12 +32,11 @@ public class RedditDeserializer implements JsonDeserializer<Listing> {
         for (int i = 0; i < children.size(); i++) {
             JsonObject post = children.get(i).getAsJsonObject().getAsJsonObject("data");
 
-            boolean over18 = post.get("over_18").getAsBoolean();
-            if(over18) {
+            boolean nsfw = post.get("over_18").getAsBoolean();
+            if(nsfw) {
                 children.getAsJsonArray().remove(i);
                 continue;
             }
-
 
             JsonObject preview = post.getAsJsonObject("preview");
             if(preview != null) {

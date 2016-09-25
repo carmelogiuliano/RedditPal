@@ -44,14 +44,13 @@ public class MainActivity extends AppCompatActivity
     private LinearLayoutManager mLayoutManager;
     private RedditService mClient;
     private String mSubreddit = "pics";
-    //private String mSubreddit = "moooosseey";
     private String mAfter;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //region drawer
+        //region d
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,6 +76,8 @@ public class MainActivity extends AppCompatActivity
 
         //endregion
 
+        //startActivity(new Intent(this, TestActivity.class));
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_posts);
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -98,12 +99,12 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        mClient = new RedditService();
+        mClient = RedditService.getInstance();
         Call<Listing> call = mClient.getPosts(mSubreddit, null);
         call.enqueue(this);
     }
 
-    //region drawer
+    //region d
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

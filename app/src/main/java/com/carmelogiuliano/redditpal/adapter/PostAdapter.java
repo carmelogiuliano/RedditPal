@@ -38,11 +38,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private OnLoadMoreListener mOnLoadMoreListener;
 
-    private PhotoViewAttacher mAttacher;
-
     private static final int VIEW_TYPE_POST = 0;
     private static final int VIEW_TYPE_LOADING = 1;
-    private static final int IMAGE_PREVIEW_INDEX = 3;
+    private static final int IMAGE_PREVIEW_INDEX = 2;
     private static final int VISIBLE_THRESHOLD = 3;
 
     private boolean mLoading = true;
@@ -156,7 +154,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     Post post = mPostList.get(getAdapterPosition());
 
                     String imgUrl = "";
-                    if (post.getImagePreviews() != null && !post.isNSFW()) {
+                    if (post.getImagePreviews() != null) {
                         try {
                             imgUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
                         } catch (IndexOutOfBoundsException e) {
@@ -167,6 +165,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         imgUrl = post.getUrl();
                     }
                     intent.putExtra("IMG_URL", imgUrl);
+                    //intent.putExtra("IMG_URL", post.getUrl());
                     mContext.startActivity(intent);
                 }
             });

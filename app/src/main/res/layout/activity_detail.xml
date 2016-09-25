@@ -7,14 +7,6 @@
     tools:context="com.carmelogiuliano.redditpal.activity.DetailActivity"
     android:orientation="vertical">
 
-    <!--<android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_tab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />-->
-
     <include layout="@layout/detail_header" />
 
     <android.support.design.widget.TabLayout
