@@ -23,6 +23,7 @@ public class RedditService {
     private RedditService() {
         Gson gson = new GsonBuilder()
             .registerTypeAdapter(Listing.class, new RedditDeserializer())
+            .registerTypeAdapter(CommentList.class, new CommentDeserializer())
             .create();
 
         mRetrofit = new Retrofit.Builder()

@@ -1,21 +1,29 @@
 package com.carmelogiuliano.redditpal.activity;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.carmelogiuliano.redditpal.R;
 import com.carmelogiuliano.redditpal.adapter.PagerAdapter;
+import com.carmelogiuliano.redditpal.http.RedditService;
 
 public class DetailActivity extends AppCompatActivity {
+    private TextView mTitle;
+    private TextView mAuthor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        //region TabLayout
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         //tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -39,6 +47,15 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+        //endregion
+
+        Intent intent = getIntent();
+
+        mTitle = (TextView) findViewById(R.id.activity_detail_title);
+        mAuthor = (TextView) findViewById(R.id.activity_detail_author);
+
+        mTitle.setText(intent.getStringExtra("TITLE"));
+        mAuthor.setText(intent.getStringExtra("AUTHOR"));
     }
 
 

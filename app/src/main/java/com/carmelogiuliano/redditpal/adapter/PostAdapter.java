@@ -40,7 +40,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int VIEW_TYPE_POST = 0;
     private static final int VIEW_TYPE_LOADING = 1;
-    private static final int IMAGE_PREVIEW_INDEX = 2;
+    private static final int IMAGE_PREVIEW_INDEX = 3;
     private static final int VISIBLE_THRESHOLD = 3;
 
     private boolean mLoading = true;
@@ -173,7 +173,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Post post = mPostList.get(getAdapterPosition());
                     Intent intent = new Intent(mContext, DetailActivity.class);
+                    intent.putExtra("TITLE", post.getTitle());
+                    intent.putExtra("AUTHOR", post.getAuthor());
+                    intent.putExtra("PERMALINK", post.getPermalink());
                     mContext.startActivity(intent);
                 }
             });

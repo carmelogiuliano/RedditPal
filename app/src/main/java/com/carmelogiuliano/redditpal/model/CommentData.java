@@ -3,9 +3,9 @@ package com.carmelogiuliano.redditpal.model;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Carmelo on 21/09/2016.
+ * Created by Carmelo on 26/09/2016.
  */
-public class Comment {
+public class CommentData {
     private String body;
     @SerializedName("body_html")
     private String bodyHtml;
@@ -17,7 +17,7 @@ public class Comment {
     public String getBodyHtml() {
         return bodyHtml;
     }
-    
+
     public String getAuthor() {
         return author;
     }

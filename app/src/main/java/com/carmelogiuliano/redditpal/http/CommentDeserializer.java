@@ -8,6 +8,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 
 import java.lang.reflect.Type;
 
@@ -15,13 +16,21 @@ import java.lang.reflect.Type;
  * Created by Carmelo on 21/09/2016.
  */
 public class CommentDeserializer implements JsonDeserializer<CommentList> {
-    //private int mTier = 0;
-    private JsonArray mCommentList;
+    //private JsonArray mCommentList;
 
     @Override
     public CommentList deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject data = json.getAsJsonArray().get(1).getAsJsonObject();
-        JsonArray comments = data.getAsJsonObject("data").getAsJsonArray("children");
+        JsonArray children = data.getAsJsonObject("data").getAsJsonArray("children");
+
+        JsonArray comments = new JsonArray();
+        for (int i = 0; i < children.size(); i++) {
+            String kind = children.get(i).getAsJsonObject().get("kind").getAsString();
+            if(kind.equals("t1")) {
+                JsonObject comment = children.get(i).getAsJsonObject().getAsJsonObject("data");
+                comments.add(comment);
+            }
+        }
 
         JsonObject commentList = new JsonObject();
         commentList.add("children", comments);

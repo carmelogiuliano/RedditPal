@@ -75,6 +75,11 @@ public class Post {
     }
 
     public String getPermalink() {
+        if(permalink.startsWith("/")) {
+            StringBuilder sb = new StringBuilder(permalink);
+            sb.deleteCharAt(0);
+            permalink = sb.toString();
+        }
         return permalink;
     }
 
