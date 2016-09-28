@@ -28,9 +28,8 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
     private ArrayList<Post> mPostList;
     private LinearLayoutManager mLayoutManager;
     private RedditService mClient;
-    private String mSubreddit = "pics";
+    private String mSubreddit = "news";
     private String mAfter;
-
 
 
     @Override

@@ -19,6 +19,7 @@ import com.carmelogiuliano.redditpal.http.RedditService;
 import com.carmelogiuliano.redditpal.model.Comment;
 import com.carmelogiuliano.redditpal.model.CommentList;
 import com.carmelogiuliano.redditpal.model.Listing;
+import com.carmelogiuliano.redditpal.model.Post;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,6 @@ import retrofit2.Response;
  */
 public class CommentsFragment extends Fragment implements Callback<CommentList> {
     private RedditService mClient;
-    private String mPermalink;
     private ArrayList<Comment> mCommentList;
     private CommentAdapter mCommentAdapter;
     private RecyclerView mRecyclerView;
@@ -40,7 +40,7 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
     private TextView mTitle;
     private TextView mAuthor;
     private TextView mSelfText;
-    private Intent mIntent;
+    private Post mPost;
 
     public CommentsFragment() {
         // Required empty public constructor
@@ -50,12 +50,11 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mIntent = getActivity().getIntent();
+        mPost = (Post) getActivity().getIntent().getSerializableExtra("POST");
         mCommentList = new ArrayList<>();
         mClient = RedditService.getInstance();
-        mPermalink = getActivity().getIntent().getStringExtra("PERMALINK");
 
-        Call<CommentList> call = mClient.getComments(mPermalink);
+        Call<CommentList> call = mClient.getComments(mPost.getPermalink());
         call.enqueue(this);
     }
 
@@ -68,9 +67,11 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
         mAuthor = (TextView) v.findViewById(R.id.fragment_comments_author);
         mSelfText = (TextView) v.findViewById(R.id.fragment_comments_selftext);
 
-        mTitle.setText(mIntent.getStringExtra("TITLE"));
-        mAuthor.setText(mIntent.getStringExtra("AUTHOR"));
-        mSelfText.setText(Html.fromHtml(mIntent.getStringExtra("SELF_TEXT")));
+        mTitle.setText(mPost.getTitle());
+        mAuthor.setText(mPost.getAuthor());
+        if(mPost.isSelf()) {
+            mSelfText.setText(Html.fromHtml(mPost.getSelfTextHtml()));
+        }
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_comments);
         mLayoutManager = new LinearLayoutManager(v.getContext());

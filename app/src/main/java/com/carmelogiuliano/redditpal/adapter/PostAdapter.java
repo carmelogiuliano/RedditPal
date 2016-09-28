@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -87,19 +88,25 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Post post = mPostList.get(position);
             postHolder.title.setText(post.getTitle());
             postHolder.numComments.setText(mContext.getString(R.string.num_comments, post.getNumComments()));
+            postHolder.domain.setText(post.getDomain());
 
             if (post.getImagePreviews() != null) {
-                try {
-                    String previewUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
-                    Glide.with(mContext).load(previewUrl).into(postHolder.image);
-                } catch (IndexOutOfBoundsException e) {
-                    int index = post.getImagePreviews().size() - 1;
-                    String previewUrl = post.getImagePreviews().get(index).getUrl();
-                    Glide.with(mContext).load(previewUrl).into(postHolder.image);
+                if(post.getImagePreviews().size() != 0) {
+                    try {
+                        String previewUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
+                        Glide.with(mContext).load(previewUrl).into(postHolder.image);
+                        postHolder.image.setVisibility(View.VISIBLE);
+                    } catch (IndexOutOfBoundsException e) {
+                        int index = post.getImagePreviews().size() - 1;
+                        String previewUrl = post.getImagePreviews().get(index).getUrl();
+                        Glide.with(mContext).load(previewUrl).into(postHolder.image);
+                        postHolder.image.setVisibility(View.VISIBLE);
+                    }
                 }
             } else if (post.isImage()) {
                 Glide.with(mContext).load(post.getUrl()).into(postHolder.image);
-            } else if (post.isSelf()) {
+                postHolder.image.setVisibility(View.VISIBLE);
+            } else {
                 postHolder.image.setVisibility(View.GONE);
             }
         } else if(holder instanceof LoadingViewHolder) {
@@ -140,15 +147,17 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class PostViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView numComments;
+        private TextView domain;
         private ImageView image;
-        private LinearLayout details;
+        private RelativeLayout details;
 
         public PostViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.post_title);
             numComments = (TextView) itemView.findViewById(R.id.post_num_comments);
+            domain = (TextView) itemView.findViewById(R.id.post_domain);
             image = (ImageView) itemView.findViewById(R.id.post_image);
-            details = (LinearLayout) itemView.findViewById(R.id.post_details);
+            details = (RelativeLayout) itemView.findViewById(R.id.post_details);
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -177,16 +186,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View v) {
                     Post post = mPostList.get(getAdapterPosition());
                     Intent intent = new Intent(mContext, DetailActivity.class);
-                    intent.putExtra("TITLE", post.getTitle());
-                    intent.putExtra("AUTHOR", post.getAuthor());
-                    intent.putExtra("PERMALINK", post.getPermalink());
-                    if(post.isSelf()) {
-                        intent.putExtra("SELF_TEXT", post.getSelfTextHtml());
-                    }
-                    else {
-                        intent.putExtra("SELF_TEXT", "");
-                    }
-
+                    intent.putExtra("POST", post);
                     mContext.startActivity(intent);
                 }
             });

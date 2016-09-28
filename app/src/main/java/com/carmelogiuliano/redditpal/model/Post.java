@@ -2,12 +2,13 @@ package com.carmelogiuliano.redditpal.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Carmelo on 14/09/2016.
  */
-public class Post {
+public class Post implements Serializable {
     private String domain;
     private String subreddit;
     private String author;
