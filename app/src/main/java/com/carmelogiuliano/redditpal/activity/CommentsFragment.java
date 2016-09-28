@@ -1,14 +1,17 @@
 package com.carmelogiuliano.redditpal.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.carmelogiuliano.redditpal.R;
 import com.carmelogiuliano.redditpal.adapter.CommentAdapter;
@@ -34,6 +37,10 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
     private CommentAdapter mCommentAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
+    private TextView mTitle;
+    private TextView mAuthor;
+    private TextView mSelfText;
+    private Intent mIntent;
 
     public CommentsFragment() {
         // Required empty public constructor
@@ -43,6 +50,7 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mIntent = getActivity().getIntent();
         mCommentList = new ArrayList<>();
         mClient = RedditService.getInstance();
         mPermalink = getActivity().getIntent().getStringExtra("PERMALINK");
@@ -56,11 +64,21 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_comments, container, false);
 
+        mTitle = (TextView) v.findViewById(R.id.fragment_comments_title);
+        mAuthor = (TextView) v.findViewById(R.id.fragment_comments_author);
+        mSelfText = (TextView) v.findViewById(R.id.fragment_comments_selftext);
+
+        mTitle.setText(mIntent.getStringExtra("TITLE"));
+        mAuthor.setText(mIntent.getStringExtra("AUTHOR"));
+        mSelfText.setText(Html.fromHtml(mIntent.getStringExtra("SELF_TEXT")));
+
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_comments);
         mLayoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mCommentAdapter = new CommentAdapter(v.getContext(), mCommentList);
         mRecyclerView.setAdapter(mCommentAdapter);
+        mRecyclerView.setNestedScrollingEnabled(true);
+
 
         return v;
     }

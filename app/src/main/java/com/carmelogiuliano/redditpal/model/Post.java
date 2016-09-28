@@ -31,6 +31,8 @@ public class Post {
     private long createdUtc;
     @SerializedName("num_comments")
     private String numComments;
+    @SerializedName("selftext_html")
+    private String selfTextHtml;
     private List<ImagePreview> imagePreviews;
     private boolean visited;
 
@@ -124,5 +126,9 @@ public class Post {
                 lUrl.endsWith(".webp") ||
                 lUrl.contains("imgur.com") ||
                 lUrl.contains("reddituploads.com"));
+    }
+
+    public String getSelfTextHtml() {
+        return selfTextHtml;
     }
 }

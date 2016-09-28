@@ -99,6 +99,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             } else if (post.isImage()) {
                 Glide.with(mContext).load(post.getUrl()).into(postHolder.image);
+            } else if (post.isSelf()) {
+                postHolder.image.setVisibility(View.GONE);
             }
         } else if(holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingHolder = (LoadingViewHolder) holder;
@@ -178,6 +180,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     intent.putExtra("TITLE", post.getTitle());
                     intent.putExtra("AUTHOR", post.getAuthor());
                     intent.putExtra("PERMALINK", post.getPermalink());
+                    if(post.isSelf()) {
+                        intent.putExtra("SELF_TEXT", post.getSelfTextHtml());
+                    }
+                    else {
+                        intent.putExtra("SELF_TEXT", "");
+                    }
+
                     mContext.startActivity(intent);
                 }
             });

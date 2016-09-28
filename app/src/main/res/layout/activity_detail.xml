@@ -7,7 +7,8 @@
     tools:context="com.carmelogiuliano.redditpal.activity.DetailActivity"
     android:orientation="vertical">
 
-    <include layout="@layout/detail_header" />
+
+
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
@@ -36,5 +37,4 @@
         android:layout_height="fill_parent" />
 
 </LinearLayout>
-
 

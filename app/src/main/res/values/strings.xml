@@ -11,4 +11,7 @@
 
     <string name="tab_comments">Comments</string>
     <string name="tab_web">Link</string>
+    <string name="searchable">Searchable</string>
+    <string name="search_hint">Subreddit</string>
+    <string name="action_search">Search</string>
 </resources>
