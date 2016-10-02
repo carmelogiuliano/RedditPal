@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
     private ArrayList<Post> mPostList;
     private LinearLayoutManager mLayoutManager;
     private RedditService mClient;
-    private String mSubreddit = "news";
+    private String mSubreddit = "hackintosh";
     private String mAfter;
 
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
                 mPostList.add(null); // adapter will recognise null item and infalte progressbar
                 mPostAdapter.notifyItemChanged(mPostList.size() - 1);
 
-                mPostAdapter.setLoaded();
+                mPostAdapter.setLoaded(true);
                 Call<Listing> call = mClient.getPosts(mSubreddit, mAfter);
                 call.enqueue(MainActivity.this);
             }
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
         mPostAdapter.setAfter(mAfter);
         mPostList.addAll(response.body().getPosts());
         mPostAdapter.notifyDataSetChanged();
-        mPostAdapter.setLoaded();
+        mPostAdapter.setLoaded(false);
     }
 
     @Override

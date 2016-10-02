@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -134,8 +135,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         mOnLoadMoreListener = onLoadMoreListener;
     }
 
-    public void setLoaded() {
-        mLoading = !mLoading;
+    public void setLoaded(boolean loading) {
+        mLoading = loading;
     }
 
     public void setAfter(String after) {
@@ -150,6 +151,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView domain;
         private ImageView image;
         private RelativeLayout details;
+        private ImageButton shareBtn;
 
         public PostViewHolder(View itemView) {
             super(itemView);
@@ -158,6 +160,20 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             domain = (TextView) itemView.findViewById(R.id.post_domain);
             image = (ImageView) itemView.findViewById(R.id.post_image);
             details = (RelativeLayout) itemView.findViewById(R.id.post_details);
+            shareBtn = (ImageButton) itemView.findViewById(R.id.imageButton_share);
+            shareBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Post post = mPostList.get(getAdapterPosition());
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_TEXT, post.getUrl());
+                    intent.setType("text/plain");
+                    Intent.createChooser(intent, "Share via");
+                    mContext.startActivity(intent);
+                }
+            });
+
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
