@@ -194,6 +194,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     intent.putExtra("IMG_URL", imgUrl);
                     //intent.putExtra("IMG_URL", post.getUrl());
                     mContext.startActivity(intent);
+
                 }
             });
 
