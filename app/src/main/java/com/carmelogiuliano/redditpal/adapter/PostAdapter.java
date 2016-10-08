@@ -3,6 +3,8 @@ package com.carmelogiuliano.redditpal.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.carmelogiuliano.redditpal.R;
@@ -152,6 +155,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private ImageView image;
         private RelativeLayout details;
         private ImageButton shareBtn;
+        private ImageButton saveBtn;
 
         public PostViewHolder(View itemView) {
             super(itemView);
@@ -160,6 +164,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             domain = (TextView) itemView.findViewById(R.id.post_domain);
             image = (ImageView) itemView.findViewById(R.id.post_image);
             details = (RelativeLayout) itemView.findViewById(R.id.post_details);
+            saveBtn = (ImageButton) itemView.findViewById(R.id.imageButton_save);
             shareBtn = (ImageButton) itemView.findViewById(R.id.imageButton_share);
             shareBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -171,6 +176,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     intent.setType("text/plain");
                     Intent.createChooser(intent, "Share via");
                     mContext.startActivity(intent);
+                }
+            });
+
+            saveBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Post post = mPostList.get(getAdapterPosition());
+                    Toast.makeText(mContext.getApplicationContext(), "Post saved", Toast.LENGTH_LONG).show();
                 }
             });
 
