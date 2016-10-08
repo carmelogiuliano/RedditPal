@@ -11,26 +11,25 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
-            <meta-data android:name="android.app.default_searchable"
-                android:value=".activity.MainActivity"/>
-
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
-
-            <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.carmelogiuliano.redditpal.model" />
-
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".activity.MainActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <meta-data
+                android:name="DOMAIN_PACKAGE_NAME"
+                android:value="com.carmelogiuliano.redditpal.model" />
         </activity>
         <activity
             android:name=".activity.ImageActivity"
@@ -38,7 +37,9 @@
         <activity
             android:name=".activity.DetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.TestActivity"></activity>
+        <activity android:name=".activity.TestActivity" />
+        <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.SavedPostsActivity"></activity>
     </application>
 
 </manifest>
