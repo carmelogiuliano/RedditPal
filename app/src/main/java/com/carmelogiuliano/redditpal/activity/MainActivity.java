@@ -2,21 +2,18 @@ package com.carmelogiuliano.redditpal.activity;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.carmelogiuliano.redditpal.Constants;
 import com.carmelogiuliano.redditpal.R;
 import com.carmelogiuliano.redditpal.adapter.PostAdapter;
 import com.carmelogiuliano.redditpal.http.RedditService;
@@ -29,14 +26,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Callback<Listing> {
+public class MainActivity extends AppCompatActivity implements Callback<Listing> {
     private RecyclerView mRecyclerView;
     private PostAdapter mPostAdapter;
     private ArrayList<Post> mPostList;
     private LinearLayoutManager mLayoutManager;
     private RedditService mClient;
-    private String mSubreddit = "hackintosh";
+    private String mSubreddit;
     private String mAfter;
 
 
@@ -45,16 +41,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //region navdrawer
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        // endregion
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        mSubreddit = prefs.getString(Constants.PREFS_SUBREDDIT_KEY, Constants.DEFAULT_SUBREDDIT);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_posts);
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -80,35 +68,6 @@ public class MainActivity extends AppCompatActivity
         call.enqueue(this);
     }
 
-    // region navdrawer
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_saved) {
-            startActivity(new Intent(this, SavedPostsActivity.class));
-        } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-    //endregion
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,7 +81,6 @@ public class MainActivity extends AppCompatActivity
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //Toast.makeText(MainActivity.this, query, Toast.LENGTH_LONG).show();
                 mSubreddit = query;
                 mPostList.clear();
                 mPostAdapter.notifyDataSetChanged();
@@ -151,6 +109,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -172,6 +132,7 @@ public class MainActivity extends AppCompatActivity
         mPostList.addAll(response.body().getPosts());
         mPostAdapter.notifyDataSetChanged();
         mPostAdapter.setLoaded(false);
+
     }
 
     @Override

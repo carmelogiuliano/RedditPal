@@ -56,17 +56,6 @@
                 android:background="@color/white"
                 android:id="@+id/imageButton_share" />
 
-            <ImageButton
-                android:src="@drawable/action_favorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:id="@+id/imageButton_save"
-                android:layout_below="@+id/post_domain"
-                android:layout_toLeftOf="@+id/imageButton_share"
-                android:layout_toStartOf="@+id/imageButton_share" />
-
-
         </RelativeLayout>
 
     </RelativeLayout>
