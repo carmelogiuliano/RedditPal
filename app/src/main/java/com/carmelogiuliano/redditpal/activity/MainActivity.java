@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements Callback<Listing> {
+    private ActionBar mActionBar;
     private RecyclerView mRecyclerView;
     private PostAdapter mPostAdapter;
     private ArrayList<Post> mPostList;
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         mSubreddit = prefs.getString(Constants.PREFS_SUBREDDIT_KEY, Constants.DEFAULT_SUBREDDIT);
+
+        mActionBar = getSupportActionBar();
+        mActionBar.setSubtitle(mSubreddit);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_posts);
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -86,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
                 mPostAdapter.notifyDataSetChanged();
                 Call<Listing> call = mClient.getPosts(mSubreddit, null);
                 call.enqueue(MainActivity.this);
+                mActionBar.setSubtitle(mSubreddit);
                 return false;
             }
 
