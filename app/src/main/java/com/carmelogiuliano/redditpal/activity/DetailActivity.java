@@ -25,7 +25,6 @@ public class DetailActivity extends AppCompatActivity {
 
         //region TabLayout
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        //tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
