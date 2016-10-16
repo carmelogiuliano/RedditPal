@@ -17,7 +17,7 @@ import retrofit2.http.Path;
 /**
  * Created by Carmelo on 13/09/2016.
  */
-public class RedditDeserializer implements JsonDeserializer<Listing> {
+public class PostDeserializer implements JsonDeserializer<Listing> {
     @Override
     public Listing deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonArray children = json.getAsJsonObject().getAsJsonObject("data").getAsJsonArray("children");
@@ -40,10 +40,12 @@ public class RedditDeserializer implements JsonDeserializer<Listing> {
 
             JsonObject preview = post.getAsJsonObject("preview");
             if(preview != null) {
-                JsonElement imagePreviews = preview.getAsJsonArray("images").get(0)
-                        .getAsJsonObject().getAsJsonArray("resolutions");
+                JsonObject imagesArray = preview.getAsJsonArray("images").get(0).getAsJsonObject();
+                JsonElement previews = imagesArray.getAsJsonArray("resolutions");
+                JsonPrimitive imageSourceUrl = imagesArray.getAsJsonObject("source").getAsJsonPrimitive("url");
 
-                post.add("imagePreviews", imagePreviews);
+                post.add("imagePreviews", previews);
+                post.add("imageSourceUrl", imageSourceUrl);
             }
 
             posts.add(post);

@@ -91,14 +91,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         String previewUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
                         Glide.with(mContext).load(previewUrl).into(postHolder.image);
                         postHolder.image.setVisibility(View.VISIBLE);
-                    } catch (IndexOutOfBoundsException e) {
+                    } catch (IndexOutOfBoundsException e) { // if post only has lower resolutions than requested, load the highest resolution it has available.
                         int index = post.getImagePreviews().size() - 1;
                         String previewUrl = post.getImagePreviews().get(index).getUrl();
                         Glide.with(mContext).load(previewUrl).into(postHolder.image);
                         postHolder.image.setVisibility(View.VISIBLE);
                     }
                 }
-            } else if (post.isImage()) {
+            } else if (post.isImage()) { // occasionally, a post will contain an image but no previews. In that case, load the original image.
                 Glide.with(mContext).load(post.getUrl()).into(postHolder.image);
                 postHolder.image.setVisibility(View.VISIBLE);
             } else {
@@ -159,12 +159,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Post post = mPostList.get(getAdapterPosition());
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.putExtra(Intent.EXTRA_TEXT, post.getUrl());
-                    intent.setType(Constants.TEXT_TYPE_PLAIN);
-                    Intent.createChooser(intent, Constants.SHARE_ACTION_MSG);
-                    mContext.startActivity(intent);
+                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                    sharingIntent.setType(Constants.TEXT_TYPE_PLAIN);
+                    sharingIntent.putExtra(Intent.EXTRA_TEXT, post.getUrl());
+                    mContext.startActivity(Intent.createChooser(sharingIntent, Constants.SHARE_ACTION_MSG));
                 }
             });
 
@@ -176,12 +174,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     String imgUrl = "";
                     if (post.getImagePreviews() != null) {
-                        try {
+/*                        try {
                             imgUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
-                        } catch (IndexOutOfBoundsException e) {
-                            int index = post.getImagePreviews().size() - 1;
-                            imgUrl = post.getImagePreviews().get(index).getUrl();
-                        }
+                        } catch (IndexOutOfBoundsException e) {*/
+                        //int index = post.getImagePreviews().size() - 1;
+                        //imgUrl = post.getImagePreviews().get(index).getUrl();
+
+                        imgUrl = post.getImageSourceUrl();
+                        //}
                     } else if (post.isImage()) {
                         imgUrl = post.getUrl();
                     }

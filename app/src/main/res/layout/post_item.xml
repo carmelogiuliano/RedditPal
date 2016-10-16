@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/post_image"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="200dp"
             android:background="@color/lightGrey"
             android:scaleType="centerCrop"
             android:visibility="gone"/>
@@ -23,6 +23,7 @@
             android:id="@+id/post_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="12dp"
             android:layout_below="@+id/post_image"
             android:orientation="vertical">
 
@@ -57,7 +58,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:background="@color/white"
-                android:id="@+id/imageButton_share" />
+                android:id="@+id/imageButton_share"
+                android:layout_marginTop="8dp"/>
 
         </RelativeLayout>
 

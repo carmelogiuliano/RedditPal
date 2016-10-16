@@ -34,6 +34,7 @@ public class Post implements Serializable {
     @SerializedName("selftext_html")
     private String selfTextHtml;
     private List<ImagePreview> imagePreviews;
+    private String imageSourceUrl;
     private boolean visited;
 
     public String getDomain() {
@@ -126,5 +127,9 @@ public class Post implements Serializable {
 
     public String getSelfTextHtml() {
         return selfTextHtml;
+    }
+
+    public String getImageSourceUrl() {
+        return imageSourceUrl;
     }
 }

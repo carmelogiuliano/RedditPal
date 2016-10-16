@@ -1,12 +1,9 @@
 package com.carmelogiuliano.redditpal.http;
 
-import com.carmelogiuliano.redditpal.model.Comment;
 import com.carmelogiuliano.redditpal.model.CommentList;
 import com.carmelogiuliano.redditpal.model.Listing;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -23,7 +20,7 @@ public class RedditService {
 
     private RedditService() {
         Gson gson = new GsonBuilder()
-            .registerTypeAdapter(Listing.class, new RedditDeserializer())
+            .registerTypeAdapter(Listing.class, new PostDeserializer())
             .registerTypeAdapter(CommentList.class, new CommentDeserializer())
             .create();
 

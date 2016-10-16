@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
         mPostAdapter.setOnLoadMoreListener(new PostAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                mPostList.add(null); // adapter will recognise null item and infalte progressbar
+                mPostList.add(null); // adapter will recognise null item and inflate progressbar
                 mPostAdapter.notifyItemChanged(mPostList.size() - 1);
 
                 mPostAdapter.setLoaded(true);
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
             }
         });
 
+        mPostList.add(null);
         mRecyclerView.setAdapter(mPostAdapter);
 
         mClient = RedditService.getInstance();
