@@ -19,6 +19,7 @@ public class RedditService {
     private Retrofit mRetrofit;
     private RedditAPI mRedditAPI;
     private static RedditService mInstance;
+    private static final String BASE_URL = "https://www.reddit.com/";
 
     private RedditService() {
         Gson gson = new GsonBuilder()
@@ -27,7 +28,7 @@ public class RedditService {
             .create();
 
         mRetrofit = new Retrofit.Builder()
-            .baseUrl("https://www.reddit.com/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 

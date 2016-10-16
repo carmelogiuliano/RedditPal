@@ -12,6 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.carmelogiuliano.redditpal.Constants;
 import com.carmelogiuliano.redditpal.R;
 import com.carmelogiuliano.redditpal.model.Post;
 
@@ -21,7 +22,6 @@ import com.carmelogiuliano.redditpal.model.Post;
 public class WebFragment extends Fragment {
     private Post mPost;
     private WebView mWebView;
-    private ProgressDialog progressBar;
 
 
     public WebFragment() {
@@ -32,7 +32,7 @@ public class WebFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPost = (Post) getActivity().getIntent().getSerializableExtra("POST");
+        mPost = (Post) getActivity().getIntent().getSerializableExtra(Constants.INTENT_POST);
     }
 
     @Override
@@ -43,10 +43,7 @@ public class WebFragment extends Fragment {
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient());
-
-        String url = mPost.getUrl();
         mWebView.loadUrl(mPost.getUrl());
-
 
         return v;
     }

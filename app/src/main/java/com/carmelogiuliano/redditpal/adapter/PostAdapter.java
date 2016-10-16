@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.carmelogiuliano.redditpal.Constants;
 import com.carmelogiuliano.redditpal.R;
 import com.carmelogiuliano.redditpal.activity.DetailActivity;
 import com.carmelogiuliano.redditpal.activity.ImageActivity;
@@ -161,8 +162,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_SEND);
                     intent.putExtra(Intent.EXTRA_TEXT, post.getUrl());
-                    intent.setType("text/plain");
-                    Intent.createChooser(intent, "Share via");
+                    intent.setType(Constants.TEXT_TYPE_PLAIN);
+                    Intent.createChooser(intent, Constants.SHARE_ACTION_MSG);
                     mContext.startActivity(intent);
                 }
             });
@@ -184,7 +185,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     } else if (post.isImage()) {
                         imgUrl = post.getUrl();
                     }
-                    intent.putExtra("IMG_URL", imgUrl);
+                    intent.putExtra(Constants.INTENT_IMAGE_URL, imgUrl);
                     mContext.startActivity(intent);
 
                 }
@@ -195,7 +196,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View v) {
                     Post post = mPostList.get(getAdapterPosition());
                     Intent intent = new Intent(mContext, DetailActivity.class);
-                    intent.putExtra("POST", post);
+                    intent.putExtra(Constants.INTENT_POST, post);
                     mContext.startActivity(intent);
                 }
             });

@@ -1,7 +1,6 @@
 package com.carmelogiuliano.redditpal.activity;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,19 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.carmelogiuliano.redditpal.Constants;
 import com.carmelogiuliano.redditpal.R;
 import com.carmelogiuliano.redditpal.adapter.CommentAdapter;
 import com.carmelogiuliano.redditpal.http.RedditService;
 import com.carmelogiuliano.redditpal.model.Comment;
 import com.carmelogiuliano.redditpal.model.CommentList;
-import com.carmelogiuliano.redditpal.model.Listing;
 import com.carmelogiuliano.redditpal.model.Post;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,7 +55,7 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPost = (Post) getActivity().getIntent().getSerializableExtra("POST");
+        mPost = (Post) getActivity().getIntent().getSerializableExtra(Constants.INTENT_POST);
         mCommentList = new ArrayList<>();
         mClient = RedditService.getInstance();
 
@@ -93,7 +91,6 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
         mCommentAdapter = new CommentAdapter(v.getContext(), mCommentList);
         mRecyclerView.setAdapter(mCommentAdapter);
         mRecyclerView.setNestedScrollingEnabled(true);
-
 
         return v;
     }

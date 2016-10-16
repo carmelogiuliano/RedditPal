@@ -24,7 +24,7 @@
 
             <TextView
                 android:id="@+id/fragment_comments_title"
-                android:text="Lorem ipsum dolor sit amet, consect adipiscing elit."
+                tools:text="Lorem ipsum dolor sit amet, consect adipiscing elit."
                 android:textSize="20sp"
                 android:layout_alignParentTop="true"
                 android:layout_width="match_parent"
@@ -40,18 +40,20 @@
 
                 <TextView
                     android:id="@+id/fragment_comments_author"
-                    android:text="author"
+                    tools:text="author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="  -  " />
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/separator" />
 
                 <TextView
                     android:id="@+id/fragment_comments_timestamp"
-                    android:text="9 hours ago"
+                    tools:text="9 hours ago"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

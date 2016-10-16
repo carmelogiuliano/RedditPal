@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.carmelogiuliano.redditpal.Constants;
 import com.carmelogiuliano.redditpal.R;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -29,12 +31,13 @@ public class ImageActivity extends AppCompatActivity {
 
         mProgressBar = (ProgressBar) findViewById(R.id.activity_image_progressBar);
         mImg = (ImageView) findViewById(R.id.activity_image_img);
-        mUrl = getIntent().getStringExtra("IMG_URL");
+        mUrl = getIntent().getStringExtra(Constants.INTENT_IMAGE_URL);
         Glide.with(this)
                 .load(mUrl)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        Toast.makeText(ImageActivity.this, Constants.NETWORK_ERROR_MSG, Toast.LENGTH_LONG).show();
                         return false;
                     }
 

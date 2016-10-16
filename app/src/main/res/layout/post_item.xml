@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="2dp"
@@ -15,7 +16,7 @@
             android:id="@+id/post_image"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:background="#AAAAAA"
+            android:background="@color/lightGrey"
             android:scaleType="centerCrop"
             android:visibility="gone"/>
         <RelativeLayout
@@ -30,22 +31,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="TITLE" />
+                tools:text="TITLE" />
 
             <TextView
                 android:id="@+id/post_num_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/post_title"
-                android:text="COMMENTS" />
+                tools:text="COMMENTS" />
 
             <TextView
                 android:id="@+id/post_domain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DOMAIN"
+                tools:text="DOMAIN"
                 android:layout_below="@+id/post_title"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
 
             <ImageButton
                 android:src="@drawable/action_share"
@@ -53,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/post_domain"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:background="@color/white"
                 android:id="@+id/imageButton_share" />
 

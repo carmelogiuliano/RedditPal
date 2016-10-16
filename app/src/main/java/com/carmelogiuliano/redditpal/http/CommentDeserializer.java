@@ -16,7 +16,6 @@ import java.lang.reflect.Type;
  * Created by Carmelo on 21/09/2016.
  */
 public class CommentDeserializer implements JsonDeserializer<CommentList> {
-    //private JsonArray mCommentList;
 
     @Override
     public CommentList deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

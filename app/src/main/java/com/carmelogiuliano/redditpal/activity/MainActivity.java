@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
 
     @Override
     public void onFailure(Call<Listing> call, Throwable t) {
-        Toast.makeText(this, "Network error", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, Constants.NETWORK_ERROR_MSG, Toast.LENGTH_LONG).show();
     }
     //endregion
 }
