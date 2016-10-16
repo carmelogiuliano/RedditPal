@@ -25,7 +25,6 @@ public class Post implements Serializable {
     @SerializedName("is_self")
     private boolean isSelf;
     private String permalink;
-    private long created;
     private String url;
     private String title;
     @SerializedName("created_utc")
@@ -84,10 +83,6 @@ public class Post implements Serializable {
             permalink = sb.toString();
         }
         return permalink;
-    }
-
-    public long getCreated() {
-        return created;
     }
 
     public String getUrl() {

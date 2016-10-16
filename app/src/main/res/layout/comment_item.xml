@@ -9,7 +9,8 @@
         android:id="@+id/comment_item_author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="author" />
+        android:text="author"
+        android:textStyle="bold"/>
     <TextView
         android:id="@+id/comment_item_body"
         android:layout_width="match_parent"

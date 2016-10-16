@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,10 @@ import com.carmelogiuliano.redditpal.model.CommentList;
 import com.carmelogiuliano.redditpal.model.Listing;
 import com.carmelogiuliano.redditpal.model.Post;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,9 +42,11 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
     private CommentAdapter mCommentAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
+    private NestedScrollView mRootView;
     private TextView mTitle;
     private TextView mAuthor;
     private TextView mSelfText;
+    private TextView mTimestamp;
     private Post mPost;
 
     public CommentsFragment() {
@@ -63,12 +70,19 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_comments, container, false);
 
+        mRootView = (NestedScrollView) v.findViewById(R.id.fragment_comments_root);
         mTitle = (TextView) v.findViewById(R.id.fragment_comments_title);
         mAuthor = (TextView) v.findViewById(R.id.fragment_comments_author);
         mSelfText = (TextView) v.findViewById(R.id.fragment_comments_selftext);
+        mTimestamp = (TextView) v.findViewById(R.id.fragment_comments_timestamp);
 
         mTitle.setText(mPost.getTitle());
         mAuthor.setText(mPost.getAuthor());
+        mTimestamp.setText(DateUtils.getRelativeTimeSpanString(mPost.getCreatedUtc()).toString());
+
+        PrettyTime pt = new PrettyTime();
+        mTimestamp.setText(pt.format(new Date(mPost.getCreatedUtc()*1000L)));
+
         if(mPost.isSelf()) {
             mSelfText.setText(Html.fromHtml(mPost.getSelfTextHtml()));
         }
