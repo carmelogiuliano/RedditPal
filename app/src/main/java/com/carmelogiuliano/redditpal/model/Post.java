@@ -36,6 +36,7 @@ public class Post implements Serializable {
     private List<ImagePreview> imagePreviews;
     private String imageSourceUrl;
     private boolean visited;
+    private boolean stickied;
 
     public String getDomain() {
         return domain;
@@ -131,5 +132,9 @@ public class Post implements Serializable {
 
     public String getImageSourceUrl() {
         return imageSourceUrl;
+    }
+
+    public boolean isStickied() {
+        return stickied;
     }
 }

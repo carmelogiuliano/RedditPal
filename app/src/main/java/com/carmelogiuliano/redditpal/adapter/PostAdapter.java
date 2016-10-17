@@ -2,6 +2,10 @@ package com.carmelogiuliano.redditpal.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -84,6 +88,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             postHolder.title.setText(post.getTitle());
             postHolder.numComments.setText(mContext.getString(R.string.num_comments, post.getNumComments()));
             postHolder.domain.setText(post.getDomain());
+            postHolder.upvotes.setText(post.getScore());
 
             if (post.getImagePreviews() != null) {
                 if(post.getImagePreviews().size() != 0) {
@@ -104,10 +109,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else {
                 postHolder.image.setVisibility(View.GONE);
             }
+
         } else if(holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingHolder = (LoadingViewHolder) holder;
             loadingHolder.progressBar.setIndeterminate(true);
         }
+
+
 
     }
 
@@ -143,6 +151,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView title;
         private TextView numComments;
         private TextView domain;
+        private TextView upvotes;
         private ImageView image;
         private RelativeLayout details;
         private ImageButton shareBtn;
@@ -152,6 +161,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             title = (TextView) itemView.findViewById(R.id.post_title);
             numComments = (TextView) itemView.findViewById(R.id.post_num_comments);
             domain = (TextView) itemView.findViewById(R.id.post_domain);
+            upvotes = (TextView) itemView.findViewById(R.id.post_upvotes);
             image = (ImageView) itemView.findViewById(R.id.post_image);
             details = (RelativeLayout) itemView.findViewById(R.id.post_details);
             shareBtn = (ImageButton) itemView.findViewById(R.id.imageButton_share);
@@ -174,20 +184,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     String imgUrl = "";
                     if (post.getImagePreviews() != null) {
-/*                        try {
-                            imgUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
-                        } catch (IndexOutOfBoundsException e) {*/
-                        //int index = post.getImagePreviews().size() - 1;
-                        //imgUrl = post.getImagePreviews().get(index).getUrl();
-
                         imgUrl = post.getImageSourceUrl();
-                        //}
                     } else if (post.isImage()) {
                         imgUrl = post.getUrl();
                     }
                     intent.putExtra(Constants.INTENT_IMAGE_URL, imgUrl);
                     mContext.startActivity(intent);
-
                 }
             });
 

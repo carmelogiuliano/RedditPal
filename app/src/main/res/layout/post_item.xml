@@ -32,7 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                tools:text="TITLE" />
+                tools:text="TITLE"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/post_num_comments"
@@ -60,6 +61,17 @@
                 android:background="@color/white"
                 android:id="@+id/imageButton_share"
                 android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textSize="28sp"
+                tools:text="UPVOTES"
+                android:layout_alignBottom="@+id/imageButton_share"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/post_upvotes" />
 
         </RelativeLayout>
 
