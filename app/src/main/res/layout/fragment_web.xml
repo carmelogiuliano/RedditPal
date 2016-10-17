@@ -1,12 +1,22 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.carmelogiuliano.redditpal.activity.WebFragment">
 
     <WebView
-        android:id="@+id/webview"
+        android:id="@+id/fragment_web_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/fragment_web_msg"
+        android:padding="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_link_msg"
+        android:textSize="24sp"
+        android:fontFamily="sans-serif-light"
+        android:visibility="gone"/>
+
+</RelativeLayout>
