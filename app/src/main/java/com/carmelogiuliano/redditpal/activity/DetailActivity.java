@@ -8,6 +8,9 @@ import android.os.Bundle;
 import com.carmelogiuliano.redditpal.R;
 import com.carmelogiuliano.redditpal.adapter.PagerAdapter;
 
+/**
+ * Configures a tabbed layout for use with fragments.
+ */
 public class DetailActivity extends AppCompatActivity {
 
 

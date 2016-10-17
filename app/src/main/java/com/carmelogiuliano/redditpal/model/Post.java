@@ -50,10 +50,6 @@ public class Post implements Serializable {
         return author;
     }
 
-    /*public String getMedia() {
-        return media;
-    }*/
-
     public String getScore() {
         return score;
     }

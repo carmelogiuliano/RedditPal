@@ -17,6 +17,9 @@ import com.carmelogiuliano.redditpal.R;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+/**
+ * Fetches and displays full size image.
+ */
 public class ImageActivity extends AppCompatActivity {
     private String mUrl;
     private ImageView mImg;
@@ -41,6 +44,7 @@ public class ImageActivity extends AppCompatActivity {
                         return false;
                     }
 
+                    /** Hides ProgressBar once image is loaded */
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         mProgressBar.setVisibility(View.GONE);

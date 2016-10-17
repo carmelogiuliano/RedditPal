@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Carmelo on 13/09/2016.
+ * Configures retrofit and gson. Acts as web service.
  */
 public class RedditService {
     private Retrofit mRetrofit;

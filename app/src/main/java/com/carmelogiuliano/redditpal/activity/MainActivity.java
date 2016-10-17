@@ -27,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Displays posts in RecyclerView. Main screen of application.
+ */
 public class MainActivity extends AppCompatActivity implements Callback<Listing> {
     private ActionBar mActionBar;
     private RecyclerView mRecyclerView;

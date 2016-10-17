@@ -4,7 +4,6 @@ package com.carmelogiuliano.redditpal.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -33,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Displays post's comments.
  */
 public class CommentsFragment extends Fragment implements Callback<CommentList> {
     private RedditService mClient;
@@ -52,6 +51,7 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
         // Required empty public constructor
     }
 
+    /** Initializes member variables. */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +64,7 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
         call.enqueue(this);
     }
 
+    /** Configures views. */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -99,6 +100,7 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
         return v;
     }
 
+    /** Updates dataset from network call. */
     @Override
     public void onResponse(Call<CommentList> call, Response<CommentList> response) {
         mCommentList.addAll(response.body().getComments());

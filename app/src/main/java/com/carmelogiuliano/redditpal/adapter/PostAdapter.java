@@ -67,6 +67,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         });
     }
 
+    /** Decides which ViewHolder type to create. */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
@@ -96,14 +97,18 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         String previewUrl = post.getImagePreviews().get(IMAGE_PREVIEW_INDEX).getUrl();
                         Glide.with(mContext).load(previewUrl).into(postHolder.image);
                         postHolder.image.setVisibility(View.VISIBLE);
-                    } catch (IndexOutOfBoundsException e) { // if post only has lower resolutions than requested, load the highest resolution it has available.
+                    } catch (IndexOutOfBoundsException e) {
+                        // if post only has lower resolutions than requested,
+                        // load the highest resolution it has available.
                         int index = post.getImagePreviews().size() - 1;
                         String previewUrl = post.getImagePreviews().get(index).getUrl();
                         Glide.with(mContext).load(previewUrl).into(postHolder.image);
                         postHolder.image.setVisibility(View.VISIBLE);
                     }
                 }
-            } else if (post.isImage()) { // occasionally, a post will contain an image but no previews. In that case, load the original image.
+            } else if (post.isImage()) {
+                // Occasionally, a post will contain an image but no previews.
+                // In that case, load the original image.
                 Glide.with(mContext).load(post.getUrl()).into(postHolder.image);
                 postHolder.image.setVisibility(View.VISIBLE);
             } else {
@@ -114,9 +119,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             LoadingViewHolder loadingHolder = (LoadingViewHolder) holder;
             loadingHolder.progressBar.setIndeterminate(true);
         }
-
-
-
     }
 
     @Override
@@ -144,8 +146,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setAfter(String after) {
         mAfter = after;
     }
-
-
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
@@ -217,5 +217,4 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public interface OnLoadMoreListener {
         void onLoadMore();
     }
-
 }

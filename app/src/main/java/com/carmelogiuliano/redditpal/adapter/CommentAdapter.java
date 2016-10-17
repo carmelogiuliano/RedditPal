@@ -14,7 +14,7 @@ import com.carmelogiuliano.redditpal.model.Comment;
 import java.util.ArrayList;
 
 /**
- * Created by Carmelo on 26/09/2016.
+ * Prepares comment item views for RecyclerView.
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     private ArrayList<Comment> mCommentList;
@@ -48,13 +48,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         public TextView author;
-        private TextView score;
         private TextView body;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
             author = (TextView) itemView.findViewById(R.id.comment_item_author);
-            //score = (TextView) itemView.findViewById(R.id.comment_item_score);
             body = (TextView) itemView.findViewById(R.id.comment_item_body);
         }
     }

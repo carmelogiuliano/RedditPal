@@ -15,7 +15,7 @@ import java.lang.reflect.Type;
 import retrofit2.http.Path;
 
 /**
- * Created by Carmelo on 13/09/2016.
+ * Deserializes reddit posts.
  */
 public class PostDeserializer implements JsonDeserializer<Listing> {
     @Override

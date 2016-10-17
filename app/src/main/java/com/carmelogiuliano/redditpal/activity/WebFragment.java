@@ -1,7 +1,6 @@
 package com.carmelogiuliano.redditpal.activity;
 
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,7 +17,7 @@ import com.carmelogiuliano.redditpal.R;
 import com.carmelogiuliano.redditpal.model.Post;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Loads a post's url in a WebView.
  */
 public class WebFragment extends Fragment {
     private Post mPost;

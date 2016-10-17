@@ -8,7 +8,7 @@ import com.carmelogiuliano.redditpal.activity.CommentsFragment;
 import com.carmelogiuliano.redditpal.activity.WebFragment;
 
 /**
- * Created by Carmelo on 18/09/2016.
+ * Enables switching of tabs in DetailActivity.
  */
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumTabs;

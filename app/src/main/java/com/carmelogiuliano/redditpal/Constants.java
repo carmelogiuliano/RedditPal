@@ -1,9 +1,8 @@
 package com.carmelogiuliano.redditpal;
 
 /**
- * Created by Giuliano on 15/10/2016.
+ * Defines constants for use throughout application.
  */
-
 public class Constants {
     public static final String DEFAULT_SUBREDDIT = "pics";
     public static final String PREFS_SUBREDDIT_KEY = "default_subreddit";
