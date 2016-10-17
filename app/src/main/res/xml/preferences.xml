@@ -2,5 +2,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <EditTextPreference android:title="Default subreddit"
         android:key="default_subreddit"
-        android:summary="Enter subreddit to set as default"/>
+        android:summary="Subreddit to be shown on launch"/>
 </PreferenceScreen>

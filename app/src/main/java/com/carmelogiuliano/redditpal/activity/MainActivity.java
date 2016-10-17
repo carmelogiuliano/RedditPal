@@ -80,7 +80,8 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        final MenuItem searchViewMenuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchViewMenuItem.getActionView();
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
                 Call<Listing> call = mClient.getPosts(mSubreddit, null);
                 call.enqueue(MainActivity.this);
                 mActionBar.setSubtitle(mSubreddit);
+                searchViewMenuItem.collapseActionView();
                 return false;
             }
 
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Listing>
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-            return true;
+            return false;
         }
 
         return super.onOptionsItemSelected(item);
