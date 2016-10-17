@@ -12,6 +12,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.carmelogiuliano.redditpal.Constants;
@@ -40,11 +41,11 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
     private CommentAdapter mCommentAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private NestedScrollView mRootView;
     private TextView mTitle;
     private TextView mAuthor;
     private TextView mSelfText;
     private TextView mTimestamp;
+    private ProgressBar mProgressBar;
     private Post mPost;
 
     public CommentsFragment() {
@@ -68,11 +69,11 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_comments, container, false);
 
-        mRootView = (NestedScrollView) v.findViewById(R.id.fragment_comments_root);
         mTitle = (TextView) v.findViewById(R.id.fragment_comments_title);
         mAuthor = (TextView) v.findViewById(R.id.fragment_comments_author);
         mSelfText = (TextView) v.findViewById(R.id.fragment_comments_selftext);
         mTimestamp = (TextView) v.findViewById(R.id.fragment_comments_timestamp);
+        mProgressBar = (ProgressBar) v.findViewById(R.id.fragment_comments_progressbar);
 
         mTitle.setText(mPost.getTitle());
         mAuthor.setText(mPost.getAuthor());
@@ -82,7 +83,10 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
         mTimestamp.setText(pt.format(new Date(mPost.getCreatedUtc()*1000L)));
 
         if(mPost.isSelf()) {
-            mSelfText.setText(Html.fromHtml(mPost.getSelfTextHtml()));
+            String selfText = mPost.getSelfTextHtml();
+            if(selfText != null) {
+                mSelfText.setText(Html.fromHtml(selfText));
+            }
         }
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_comments);
@@ -90,7 +94,7 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mCommentAdapter = new CommentAdapter(v.getContext(), mCommentList);
         mRecyclerView.setAdapter(mCommentAdapter);
-        mRecyclerView.setNestedScrollingEnabled(true);
+        mRecyclerView.setNestedScrollingEnabled(false);
 
         return v;
     }
@@ -99,6 +103,7 @@ public class CommentsFragment extends Fragment implements Callback<CommentList> 
     public void onResponse(Call<CommentList> call, Response<CommentList> response) {
         mCommentList.addAll(response.body().getComments());
         mCommentAdapter.notifyDataSetChanged();
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
